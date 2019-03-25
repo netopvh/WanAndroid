@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="listener"
+            type="android.view.View.OnClickListener" />
+    </data>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="@color/colorPrimary"
+                app:popupTheme="@style/AppTheme.PopupOverlay">
+
+                <TextView
+                    android:id="@+id/tv_search"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="15dp"
+                    android:background="@drawable/res_search_bg"
+                    android:drawableStart="@drawable/ic_action_action_search"
+                    android:gravity="center_vertical"
+                    android:onClick="@{listener}"
+                    android:padding="2dp"
+                    android:text="@string/str_search"
+                    android:textColor="@color/white" />
+
+            </android.support.v7.widget.Toolbar>
+
+            <com.miguelcatalan.materialsearchview.MaterialSearchView
+                android:id="@+id/search"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/str_search_hint"
+                android:textColor="@color/white"
+                android:textColorHint="@color/theme_secondary_text_inverted"
+                app:searchBackIcon="@drawable/ic_action_navigation_arrow_back_inverted"
+                app:searchBackground="@color/colorPrimary"
+                app:searchCloseIcon="@drawable/ic_action_navigation_close_inverted"
+                app:searchSuggestionBackground="@color/white" />
+
+        </FrameLayout>
+
+        <com.scwang.smartrefresh.layout.SmartRefreshLayout
+            android:id="@+id/refresh"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="?attr/actionBarSize"
+            app:srlEnableLoadMore="true"
+            app:srlEnableRefresh="true">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scrollbars="vertical"
+                tools:listitem="@layout/item_subclass_layout" />
+
+        </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+    </FrameLayout>
+
+</layout>

@@ -1,0 +1,173 @@
+apply plugin: 'com.android.application'
+
+apply plugin: 'kotlin-android'
+
+apply plugin: 'kotlin-android-extensions'
+
+apply plugin: 'org.greenrobot.greendao'
+
+apply plugin: 'walle'
+
+apply plugin: 'com.hujiang.android-aspectjx'
+
+// Create a variable called keystorePropertiesFile, and initialize it to your
+// keystore.properties file, in the rootProject folder.
+def keystorePropertiesFile = rootProject.file("keystore.properties")
+// Initialize a new Properties() object called keystoreProperties.
+def keystoreProperties = new Properties()
+// Load your keystore.properties file into the keystoreProperties object.
+keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+
+android {
+    compileSdkVersion rootProject.ext.android["compileSdkVersion"]
+    defaultConfig {
+        applicationId "com.whamu2.wanandroid"
+        minSdkVersion rootProject.ext.android["minSdkVersion"]
+        targetSdkVersion rootProject.ext.android["targetSdkVersion"]
+        versionCode rootProject.ext.android["versionCode"]
+        versionName rootProject.ext.android["versionName"]
+        manifestPlaceholders = [
+                APP_PKGNAME      : applicationId,
+                APP_SOURCE       : "Android",
+                MIT_BUGLY_APP_ID : "da31006749",
+                MIT_BUGLY_APP_KEY: "3d71aeb4-40e3-4507-a6e4-99e3f8168e27"
+        ]
+        flavorDimensions "versionCode"
+        multiDexEnabled true
+    }
+
+    signingConfigs {
+        release {
+            keyAlias keystoreProperties['keyAlias']
+            keyPassword keystoreProperties['keyPassword']
+            storeFile file(keystoreProperties['storeFile'])
+            storePassword keystoreProperties['storePassword']
+
+            v1SigningEnabled true
+            v2SigningEnabled true
+        }
+    }
+
+    // gradlew assembleRelease
+    buildTypes {
+        release {
+            buildConfigField "boolean", "LOG_DEBUG", "false"
+            shrinkResources true
+            zipAlignEnabled true
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro', 'proguard-rules-x5.pro'
+            signingConfig signingConfigs.release
+        }
+        debug {
+            buildConfigField "boolean", "LOG_DEBUG", "true"
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro', 'proguard-rules-x5.pro'
+            signingConfig signingConfigs.release
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    useLibrary 'org.apache.http.legacy'
+
+    lintOptions {
+        abortOnError false
+    }
+
+    dexOptions {
+        preDexLibraries = false
+    }
+
+    dataBinding {
+        enabled = true
+    }
+    
+    productFlavors {
+        dev {
+            buildConfigField('String', 'BUILD_ENV_TYPE', '"dev"')
+            buildConfigField('String', 'BASE_URL', '"http://www.wanandroid.com"')
+        }
+        pro {
+            buildConfigField('String', 'BUILD_ENV_TYPE', '"pro"')
+            buildConfigField('String', 'BASE_URL', '"http://www.wanandroid.com"')
+        }
+    }
+
+    configurations.all {
+        resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
+    }
+
+    walle {
+        // 指定渠道包的输出路径
+        apkOutputFolder = new File("${project.buildDir}/outputs/channels")
+        // 定制渠道包的APK的文件名称
+        apkFileNameFormat = '${appName}-${packageName}-${channel}-${buildType}-v${versionName}-${versionCode}-${buildTime}.apk'
+        // 渠道配置文件
+        channelFile = new File("${project.getProjectDir()}/channel")
+    }
+
+}
+
+repositories {
+    flatDir {
+        dirs 'libs'
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
+    implementation rootProject.ext.dependencies["appcompat-v7"]
+    implementation rootProject.ext.dependencies["support-v4"]
+    implementation rootProject.ext.dependencies["design"]
+    implementation rootProject.ext.dependencies["recyclerview-v7"]
+    implementation rootProject.ext.dependencies["cardview-v7"]
+    implementation rootProject.ext.dependencies["gson"]
+    implementation rootProject.ext.dependencies["utilcode"]
+    implementation rootProject.ext.dependencies["SPF"]
+    implementation rootProject.ext.dependencies["SSM"]
+    implementation rootProject.ext.dependencies["pickerView"]
+    implementation rootProject.ext.dependencies["rxbinding"]
+    implementation rootProject.ext.dependencies["rxbinding-recyclerview-v7"]
+    implementation rootProject.ext.dependencies["multidex"]
+    implementation 'com.github.whamu2:CommonView:v1.2.0'
+    implementation 'me.jessyan:arms:2.4.1'
+    implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.5.1'
+    implementation 'com.scwang.smartrefresh:SmartRefreshHeader:1.0.5.1'
+    implementation 'com.youth.banner:banner:1.4.10'
+    //tools
+    implementation rootProject.ext.dependencies["dagger2"]
+    annotationProcessor rootProject.ext.dependencies["dagger2-compiler"]
+    implementation rootProject.ext.dependencies["progressmanager"]
+    implementation rootProject.ext.dependencies["retrofit-url-manager"]
+    implementation rootProject.ext.dependencies["lifecyclemodel"]
+    annotationProcessor rootProject.ext.dependencies["glide-compiler"]
+    //view
+    annotationProcessor(rootProject.ext.dependencies["butterknife-compiler"]) {
+        exclude module: 'support-annotations'
+    }
+    implementation files('libs/tbs_sdk_20180608_114954.jar')
+    implementation 'com.tencent.bugly:crashreport_upgrade:1.3.5'
+    debugImplementation rootProject.ext.dependencies["canary-debug"]
+    releaseImplementation rootProject.ext.dependencies["canary-release"]
+    implementation rootProject.ext.dependencies["BRVAH"]
+    implementation rootProject.ext.dependencies["Android-SpinKit"]
+    implementation rootProject.ext.dependencies["expandablelayout"]
+    implementation(name: 'LoadingSdk_V2.1', ext: 'aar')
+    implementation rootProject.ext.dependencies["searchview"]
+    implementation rootProject.ext.dependencies["transformations"]
+
+    implementation rootProject.ext.dependencies["greendao"]
+    implementation rootProject.ext.dependencies["stetho"]
+    implementation rootProject.ext.dependencies["stetho-okhttp3"]
+    implementation rootProject.ext.dependencies["walle"]
+    // implementation "org.aspectj:aspectjrt:$aspectjtools"
+    implementation rootProject.ext.dependencies["SuperTextView"]
+
+    implementation project(':lib')
+    annotationProcessor project(':apt')
+}
