@@ -13,6 +13,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 
+import com.blankj.utilcode.util.KeyboardUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.jess.arms.di.component.AppComponent;
 import com.whamu2.wanandroid.R;
@@ -52,6 +53,7 @@ public class LoginActivity extends BaseLifecycleDataBindingActivity<ActivityLogi
 
     @Override
     public int initView(@Nullable Bundle savedInstanceState) {
+
         return R.layout.activity_login;
     }
 
@@ -94,6 +96,7 @@ public class LoginActivity extends BaseLifecycleDataBindingActivity<ActivityLogi
 
     @Override
     public void onLoginComplete(User user) {
+        KeyboardUtils.hideSoftInput(this);
         DatabaseManager.getInstance().saveUser(user);
         showMessage(getString(R.string.str_sign_complete));
         EventBus.getDefault().post(new EventObj(LOGIN));
@@ -102,6 +105,7 @@ public class LoginActivity extends BaseLifecycleDataBindingActivity<ActivityLogi
 
     @Override
     public void onRegisterComplete(User user) {
+        KeyboardUtils.hideSoftInput(this);
         showMessage(getString(R.string.str_sign_complete));
         killMyself();
     }

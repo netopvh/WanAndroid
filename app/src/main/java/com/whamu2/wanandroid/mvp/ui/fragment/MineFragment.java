@@ -31,8 +31,9 @@ import me.jessyan.rxerrorhandler.core.RxErrorHandler;
 import static com.whamu2.wanandroid.common.Container.Event.LOGIN;
 
 /**
- * @author whamu2
- * @date 2018/6/27
+ * @author Eric
+ * @date 2019/3/27
+ * @github https://github.com/whamu2
  */
 public class MineFragment extends BaseLifecycleDataBindingFragment<FragmentMineBinding, IPresenter> {
     private static final String TAG = "MineFragment";
@@ -61,13 +62,8 @@ public class MineFragment extends BaseLifecycleDataBindingFragment<FragmentMineB
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
         mErrorHandler = ArmsUtils.obtainAppComponentFromContext(Objects.requireNonNull(getContext())).rxErrorHandler();
-        obtainUser();
+        setupOwner();
         mViewBinding.setListener(this::onClick);
-    }
-
-    private void obtainUser() {
-        User user = DatabaseManager.getInstance().getUser();
-        mViewBinding.setLocaluser(user);
     }
 
     public void onClick(View view) {
@@ -92,7 +88,7 @@ public class MineFragment extends BaseLifecycleDataBindingFragment<FragmentMineB
                                 if (resp.isSuccess()) {
                                     DatabaseManager.getInstance().clear();
                                     ToastUtils.showLong(getString(R.string.str_logout_done));
-                                    obtainUser();
+                                    setupOwner();
                                 } else {
                                     ToastUtils.showLong(resp.getErrorMsg());
                                 }
@@ -110,19 +106,25 @@ public class MineFragment extends BaseLifecycleDataBindingFragment<FragmentMineB
     protected void onEventSubscribe(EventObj obj) {
         super.onEventSubscribe(obj);
         if (obj.getKey() == LOGIN) {
-            obtainUser();
+            setupOwner();
         }
     }
 
     @CheckLogin
     public void onCheckLogin(int id) {
-        obtainUser();
+        setupOwner();
         switch (id) {
             case R.id.head:
                 break;
             case R.id.collect:
                 break;
         }
+    }
+
+    private void setupOwner() {
+        User user = DatabaseManager.getInstance().getUser();
+        mViewBinding.logout.setVisibility(user != null ? View.VISIBLE : View.GONE);
+        mViewBinding.setLocaluser(user);
     }
 
     @Override
