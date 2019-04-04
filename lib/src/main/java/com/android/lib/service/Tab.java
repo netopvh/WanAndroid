@@ -23,5 +23,5 @@ public @interface Tab {
     /**
      * 图标资源
      */
-    int srcource() default 0;
+    int resource() default 0;
 }
