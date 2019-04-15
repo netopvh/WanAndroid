@@ -2,8 +2,6 @@ apply plugin: 'java'
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    //noinspection GradlePath
-    implementation files('C:/Program Files/Java/jdk1.8.0_191/jre/lib/rt.jar')
     implementation project(':lib')
     implementation 'com.squareup:javapoet:1.11.1'
     compileOnly 'com.google.auto.service:auto-service:1.0-rc4'
