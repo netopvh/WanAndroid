@@ -59,6 +59,7 @@
             android:layout_margin="@dimen/fab_margin"
             android:onClick="@{listener}"
             android:src="@drawable/ic_favorite_black_24dp"
+            android:visibility="gone"
             app:backgroundTint="@color/white"
             app:rippleColor="@color/gray" />
 
