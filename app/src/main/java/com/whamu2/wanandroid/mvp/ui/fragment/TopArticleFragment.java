@@ -8,12 +8,10 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.SearchView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.jess.arms.di.component.AppComponent;
@@ -36,13 +34,10 @@ import com.whamu2.wanandroid.utils.GlideImageLoader;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.youth.banner.Transformer;
-import com.youth.banner.listener.OnBannerListener;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-
-import javax.inject.Inject;
 
 /**
  * 顶置文章
@@ -208,7 +203,7 @@ public class TopArticleFragment extends BaseLifecycleDataBindingFragment<Fragmen
     }
 
     public void onClick(View v) {
-        mViewBinding.search.showSearch();
+        //mViewBinding.search.showSearch();
     }
 
     @Override
