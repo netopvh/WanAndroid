@@ -16,7 +16,6 @@ import com.whamu2.wanandroid.mvp.ui.fragment.ProjectFragment;
 import com.whamu2.wanandroid.mvp.ui.fragment.SystemFragment;
 import com.whamu2.wanandroid.mvp.ui.fragment.TopArticleFragment;
 import com.whamu2.wanandroid.mvp.ui.fragment.WechatFragment;
-import com.whamu2.wanandroid.utils.BottomNavigationViewHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,7 +44,6 @@ public class MainActivity extends BaseDataBindingActivity<ActivityMainBinding> {
         mViewBinding.viewpager.setOffscreenPageLimit(4);
         mViewBinding.viewpager.setAdapter(adapter);
 
-        BottomNavigationViewHelper.disableShiftMode(mViewBinding.navigation);
         mViewBinding.navigation.setOnNavigationItemSelectedListener(this::onNavigationItemSelected);
     }
 
