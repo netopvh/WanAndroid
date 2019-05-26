@@ -68,7 +68,6 @@ public class SystemFragment extends BaseLifecycleDataBindingFragment<FragmentSys
 
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
-        mViewBinding.toolbar.setTitle(R.string.title_system);
         mViewBinding.refresh.setOnRefreshListener(this::onRefresh);
         mViewBinding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mViewBinding.recyclerView.addItemDecoration(mDecoration);

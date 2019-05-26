@@ -76,15 +76,19 @@ public class MainActivity extends BaseDataBindingActivity<ActivityMainBinding>  
             switch (item.getItemId()) {
                 case R.id.navigation_home:
                     mViewPager.setCurrentItem(0);
+                    mToolbar.setTitle(R.string.title_home);
                     break;
                 case R.id.navigation_system:
                     mViewPager.setCurrentItem(1);
+                    mToolbar.setTitle(R.string.title_system);
                     break;
                 case R.id.navigation_project:
                     mViewPager.setCurrentItem(2);
+                    mToolbar.setTitle(R.string.title_project);
                     break;
                 case R.id.navigation_publicnumber:
                     mViewPager.setCurrentItem(3);
+                    mToolbar.setTitle(R.string.title_publicnumber);
                     break;
             }
             return true;
@@ -100,27 +104,6 @@ public class MainActivity extends BaseDataBindingActivity<ActivityMainBinding>  
         }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
 
     public boolean onNavigationItemSelected(@NotNull MenuItem item) {
         // Handle navigation view item clicks here.

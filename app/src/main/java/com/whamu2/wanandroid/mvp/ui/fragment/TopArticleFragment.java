@@ -47,7 +47,7 @@ import java.util.Objects;
  * @address https://github.com/whamu2
  */
 public class TopArticleFragment extends BaseLifecycleDataBindingFragment<FragmentTopArticleBinding, TopArticlePresenter>
-        implements TopArticleContract.View, OnRefreshLoadMoreListener, MaterialSearchView.OnQueryTextListener {
+        implements TopArticleContract.View, OnRefreshLoadMoreListener {
     private static final String TAG = TopArticleFragment.class.getSimpleName();
 
     private SubclassAdapter mAdapter;
@@ -79,9 +79,6 @@ public class TopArticleFragment extends BaseLifecycleDataBindingFragment<Fragmen
 
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
-        mViewBinding.search.setOnQueryTextListener(this);
-        mViewBinding.search.setVoiceSearch(false);
-        mViewBinding.search.setSuggestions(getResources().getStringArray(R.array.suggestions));
         mViewBinding.setListener(this::onClick);
 
         mAdapter = SubclassAdapter.create();
@@ -203,17 +200,6 @@ public class TopArticleFragment extends BaseLifecycleDataBindingFragment<Fragmen
     }
 
     public void onClick(View v) {
-        //mViewBinding.search.showSearch();
     }
 
-    @Override
-    public boolean onQueryTextSubmit(String query) {
-        mViewBinding.tvSearch.setText(query);
-        return false;
-    }
-
-    @Override
-    public boolean onQueryTextChange(String newText) {
-        return false;
-    }
 }
