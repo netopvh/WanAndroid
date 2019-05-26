@@ -84,7 +84,7 @@ android {
     dataBinding {
         enabled = true
     }
-    
+
     productFlavors {
         dev {
             buildConfigField('String', 'BUILD_ENV_TYPE', '"dev"')
