@@ -36,4 +36,9 @@
     <string name="str_logout_done">退出成功</string>
     <string name="navigation_drawer_open">打开</string>
     <string name="navigation_drawer_close">关闭</string>
+    <string name="nav_header_subtitle">Developed by suming</string>
+    <string name="nav_favorites">收藏</string>
+    <string name="nav_mode">夜间模式</string>
+    <string name="communicate">Communicate</string>
+    <string name="nav_share">分享</string>
 </resources>
