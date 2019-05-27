@@ -27,15 +27,6 @@
             android:required="false" />
 
         <meta-data
-            android:name="APP_PKGNAME"
-            android:value="${APP_PKGNAME}" />
-        <meta-data
-            android:name="MIT_BUGLY_APP_ID"
-            android:value="${MIT_BUGLY_APP_ID}" />
-        <meta-data
-            android:name="MIT_BUGLY_APP_KEY"
-            android:value="${MIT_BUGLY_APP_KEY}" />
-        <meta-data
             android:name="com.whamu2.wanandroid.config.GlobalConfiguration"
             android:value="ConfigModule" />
 
@@ -45,16 +36,9 @@
             android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-            <intent-filter>
-                <data android:scheme="growing.b07570a23abc45b3" />
-
                 <action android:name="android.intent.action.VIEW" />
 
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
@@ -63,7 +47,7 @@
 
         <provider
             android:name="android.support.v4.content.FileProvider"
-            android:authorities="${APP_PKGNAME}.fileProvider"
+            android:authorities="${applicationId}.fileProvider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data

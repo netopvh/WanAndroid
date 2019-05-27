@@ -26,12 +26,6 @@ android {
         targetSdkVersion rootProject.ext.android["targetSdkVersion"]
         versionCode rootProject.ext.android["versionCode"]
         versionName rootProject.ext.android["versionName"]
-        manifestPlaceholders = [
-                APP_PKGNAME      : applicationId,
-                APP_SOURCE       : "Android",
-                MIT_BUGLY_APP_ID : "da31006749",
-                MIT_BUGLY_APP_KEY: "3d71aeb4-40e3-4507-a6e4-99e3f8168e27"
-        ]
         flavorDimensions "versionCode"
         multiDexEnabled true
     }
@@ -89,10 +83,12 @@ android {
         dev {
             buildConfigField('String', 'BUILD_ENV_TYPE', '"dev"')
             buildConfigField('String', 'BASE_URL', '"http://www.wanandroid.com"')
+            buildConfigField('String', 'MIT_BUGLY_APP_ID', '"da31006749"')
         }
         pro {
             buildConfigField('String', 'BUILD_ENV_TYPE', '"pro"')
             buildConfigField('String', 'BASE_URL', '"http://www.wanandroid.com"')
+            buildConfigField('String', 'MIT_BUGLY_APP_ID', '"da31006749"')
         }
     }
 

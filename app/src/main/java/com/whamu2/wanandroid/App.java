@@ -19,7 +19,6 @@ import com.squareup.leakcanary.LeakCanary;
 import com.tencent.bugly.Bugly;
 import com.tencent.bugly.crashreport.CrashReport;
 import com.tencent.smtt.sdk.QbSdk;
-import com.whamu2.wanandroid.utils.MetaDataUtils;
 import com.whamu2.wanandroid.utils.database.DatabaseManager;
 
 import java.util.Stack;
@@ -66,7 +65,6 @@ public class App extends BaseApplication {
     }
 
     private void initBugly() {
-        String mit_bugly_app_id = MetaDataUtils.getApplicationData(this, "MIT_BUGLY_APP_ID");
         ChannelInfo channelInfo = WalleChannelReader.getChannelInfo(this);
         CrashReport.UserStrategy strategy = new CrashReport.UserStrategy(this);
         strategy.setAppVersion(AppUtils.getAppVersionName());
@@ -75,8 +73,8 @@ public class App extends BaseApplication {
             String channel = channelInfo.getChannel();
             strategy.setAppChannel(channel);
         }
-        CrashReport.initCrashReport(getApplicationContext(), mit_bugly_app_id, false, strategy);
-        Bugly.init(getApplicationContext(), mit_bugly_app_id, false);
+        CrashReport.initCrashReport(getApplicationContext(), BuildConfig.MIT_BUGLY_APP_ID, false, strategy);
+        Bugly.init(getApplicationContext(), BuildConfig.MIT_BUGLY_APP_ID, false);
 
     }
 
