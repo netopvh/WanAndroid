@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.ToxicBakery.viewpager.transforms.DepthPageTransformer;
 import com.android.lib.aspect.CheckLogin;
+import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.jess.arms.utils.ArmsUtils;
 import com.whamu2.android.PreferenceHelper;
@@ -145,7 +146,7 @@ public class MainActivity extends BaseDataBindingActivity<ActivityMainBinding> {
     public void onCheckLogin(int id) {
         setupOwner();
         if (id == R.id.nav_favorites) {
-            ToastUtils.showShort("收藏");
+            ActivityUtils.startActivity(MainActivity.this, FavoritesActivity.class);
         }
     }
 

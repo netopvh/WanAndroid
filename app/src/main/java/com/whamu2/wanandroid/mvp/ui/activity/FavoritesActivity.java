@@ -8,6 +8,8 @@ import com.jess.arms.di.component.AppComponent;
 import com.whamu2.wanandroid.R;
 import com.whamu2.wanandroid.base.BaseLifecycleDataBindingActivity;
 import com.whamu2.wanandroid.databinding.ActivityCollectBinding;
+import com.whamu2.wanandroid.di.component.DaggerFavoritesComponent;
+import com.whamu2.wanandroid.di.model.FavoritesModule;
 import com.whamu2.wanandroid.mvp.contract.FavoritesCot;
 import com.whamu2.wanandroid.mvp.model.bean.Articles;
 import com.whamu2.wanandroid.mvp.presenter.FavoritesPresenter;
@@ -23,7 +25,11 @@ public class FavoritesActivity extends BaseLifecycleDataBindingActivity<Activity
 
     @Override
     public void setupActivityComponent(@NonNull AppComponent appComponent) {
-
+        DaggerFavoritesComponent.builder()
+                .appComponent(appComponent)
+                .favoritesModule(new FavoritesModule(this))
+                .build()
+                .inject(this);
     }
 
     @Override
@@ -33,7 +39,7 @@ public class FavoritesActivity extends BaseLifecycleDataBindingActivity<Activity
 
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
-
+        setupToolbar(mViewBinding.toolbar, "我的收藏");
     }
 
     @Override

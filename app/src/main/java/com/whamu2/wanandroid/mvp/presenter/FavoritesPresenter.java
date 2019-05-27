@@ -1,5 +1,6 @@
 package com.whamu2.wanandroid.mvp.presenter;
 
+import com.jess.arms.di.scope.ActivityScope;
 import com.jess.arms.mvp.BasePresenter;
 import com.jess.arms.utils.RxLifecycleUtils;
 import com.whamu2.wanandroid.R;
@@ -21,11 +22,13 @@ import me.jessyan.rxerrorhandler.core.RxErrorHandler;
  * @date 15:32 2019 May Mon
  * @des https://github.com/whamu2
  */
+@ActivityScope
 public class FavoritesPresenter extends BasePresenter<FavoritesCot.Model, FavoritesCot.View> {
 
     @Inject
     RxErrorHandler mErrorHandler;
 
+    @Inject
     public FavoritesPresenter(FavoritesCot.Model model, FavoritesCot.View rootView) {
         super(model, rootView);
     }
