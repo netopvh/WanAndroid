@@ -169,6 +169,7 @@ dependencies {
     implementation rootProject.ext.dependencies["walle"]
     // implementation "org.aspectj:aspectjrt:$aspectjtools"
     implementation rootProject.ext.dependencies["SuperTextView"]
+    implementation 'com.ToxicBakery.viewpager.transforms:view-pager-transforms:2.0.24'
 
     implementation project(':lib')
     annotationProcessor project(':apt')

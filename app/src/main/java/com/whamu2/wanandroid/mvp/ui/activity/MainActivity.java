@@ -12,9 +12,9 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
 
+import com.ToxicBakery.viewpager.transforms.DepthPageTransformer;
 import com.whamu2.wanandroid.R;
 import com.whamu2.wanandroid.base.BaseDataBindingActivity;
 import com.whamu2.wanandroid.databinding.ActivityMainBinding;
@@ -69,7 +69,8 @@ public class MainActivity extends BaseDataBindingActivity<ActivityMainBinding>  
         adapter.addFragment(ProjectFragment.newInstance());
         adapter.addFragment(WechatFragment.newInstance());
         adapter.addFragment(MineFragment.newInstance());
-        mViewPager.setOffscreenPageLimit(4);
+        mViewPager.setOffscreenPageLimit(3);
+        mViewPager.setPageTransformer(true, new DepthPageTransformer());
         mViewPager.setAdapter(adapter);
 
         mBottomNavigationView.setOnNavigationItemSelectedListener(item -> {
