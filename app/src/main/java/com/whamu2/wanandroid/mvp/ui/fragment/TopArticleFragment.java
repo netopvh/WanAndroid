@@ -15,7 +15,6 @@ import android.view.ViewGroup;
 import com.blankj.utilcode.util.ToastUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.jess.arms.di.component.AppComponent;
-import com.miguelcatalan.materialsearchview.MaterialSearchView;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener;
 import com.whamu2.wanandroid.R;

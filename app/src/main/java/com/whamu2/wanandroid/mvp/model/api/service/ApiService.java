@@ -5,11 +5,9 @@ import com.whamu2.wanandroid.mvp.model.api.Api;
 import com.whamu2.wanandroid.mvp.model.bean.Articles;
 import com.whamu2.wanandroid.mvp.model.bean.BannerBean;
 import com.whamu2.wanandroid.mvp.model.bean.BaseResp;
-import com.whamu2.wanandroid.mvp.model.bean.Collect;
-import com.whamu2.wanandroid.mvp.model.bean.Page;
-import com.whamu2.wanandroid.mvp.model.bean.SearchData;
 import com.whamu2.wanandroid.mvp.model.bean.Cycle;
 import com.whamu2.wanandroid.mvp.model.bean.Pagination;
+import com.whamu2.wanandroid.mvp.model.bean.SearchData;
 import com.whamu2.wanandroid.mvp.model.bean.User;
 import com.whamu2.wanandroid.mvp.model.bean.WechatNumber;
 
@@ -139,5 +137,5 @@ public interface ApiService {
      * 收藏列表
      */
     @GET(Api.Url.COLLECT_LIST)
-    Observable<BaseResp<Page<Collect>>> getCollectList(@Path("page") int page);
+    Observable<BaseResp<Pagination>> getCollectList(@Path("page") int page);
 }

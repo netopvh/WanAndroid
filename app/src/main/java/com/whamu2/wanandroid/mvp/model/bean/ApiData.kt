@@ -16,6 +16,7 @@ data class Page<T>(
         @SerializedName("pageCount") var pageCount: Int = 0,
         @SerializedName("size") var size: Int = 0,
         @SerializedName("total") var total: Int = 0,
+        @SerializedName("over") var over: Boolean = false,
         @SerializedName("datas") var datas: List<T>
 )
 
