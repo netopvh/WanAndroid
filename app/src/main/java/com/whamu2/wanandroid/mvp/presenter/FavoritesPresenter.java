@@ -11,6 +11,7 @@ import com.whamu2.wanandroid.mvp.model.bean.Pagination;
 import com.whamu2.wanandroid.utils.observer.Callback;
 import com.whamu2.wanandroid.utils.observer.CommonSubscriber;
 
+import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -58,6 +59,9 @@ public class FavoritesPresenter extends BasePresenter<FavoritesCot.Model, Favori
                         if (resp.isSuccess()) {
                             Pagination page = resp.getData();
                             List<Articles> data = page.getDatas();
+                            for (Articles articles : data) {
+                                articles.setCollect(true);
+                            }
                             if (data.size() > 0) {
                                 mRootView.onDataDone(data, page.getCurPage());
                             } else {

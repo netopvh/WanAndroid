@@ -138,4 +138,32 @@ public interface ApiService {
      */
     @GET(Api.Url.COLLECT_LIST)
     Observable<BaseResp<Pagination>> getCollectList(@Path("page") int page);
+
+    /**
+     * 收藏站内文章
+     */
+    @POST(Api.Url.COLLECT_ARTICLE_INTERNAL)
+    Observable<BaseResp<Object>> doInternalCollect(@Path("id") int id);
+
+    /**
+     * 收藏站外文章
+     */
+    @POST(Api.Url.COLLECT_ARTICLE_EXTERNAL)
+    Observable<BaseResp<Object>> doExternalCollect(@Query("title") String title,
+                                                   @Query("author") String author,
+                                                   @Query("link") String link);
+
+    /**
+     * 取消收藏文章广场
+     */
+    @POST(Api.Url.CANCEL_COLLECT_ARTICLE_SQUARE)
+    Observable<BaseResp<Object>> cancelSquareCollect(@Path("id") int id);
+
+    /**
+     * 取消收藏文章我的收藏
+     */
+    @POST(Api.Url.CANCEL_COLLECT_ARTICLE_MY)
+    Observable<BaseResp<Object>> cancelMyCollect(@Path("id") int id);
+
+
 }

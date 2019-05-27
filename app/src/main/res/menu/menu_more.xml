@@ -3,14 +3,22 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/action_browser"
-        android:orderInCategory="100"
-        android:title="@string/action_browser"
-        app:showAsAction="never" />
+        android:id="@+id/action_more"
+        android:icon="@drawable/ic_more_white_24dp"
+        android:title="@string/app_name"
+        app:showAsAction="ifRoom" />
 
-    <item
-        android:id="@+id/action_link"
-        android:orderInCategory="100"
-        android:title="@string/action_project_link"
-        app:showAsAction="never" />
+    <!--<item-->
+        <!--android:id="@+id/action_browser"-->
+        <!--android:icon="@drawable/ic_open_in_browser_black_24dp"-->
+        <!--android:orderInCategory="100"-->
+        <!--android:title="@string/action_browser"-->
+        <!--app:showAsAction="never" />-->
+
+    <!--<item-->
+        <!--android:id="@+id/action_link"-->
+        <!--android:icon="@drawable/ic_link_black_24dp"-->
+        <!--android:orderInCategory="100"-->
+        <!--android:title="@string/action_project_link"-->
+        <!--app:showAsAction="never" />-->
 </menu>

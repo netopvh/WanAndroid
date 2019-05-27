@@ -3,27 +3,27 @@ package com.whamu2.wanandroid.mvp.ui.webview;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
-import android.text.TextUtils;
+import android.support.v7.app.ActionBar;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.webkit.JavascriptInterface;
 
+import com.blankj.utilcode.util.KeyboardUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.tencent.smtt.sdk.WebView;
-import com.whamu2.wanandroid.App;
 import com.whamu2.wanandroid.R;
 import com.whamu2.wanandroid.base.BaseDataBindingActivity;
+import com.whamu2.wanandroid.common.event.EventObj;
 import com.whamu2.wanandroid.databinding.ActivityWebviewPageBinding;
 import com.whamu2.wanandroid.mvp.model.bean.Articles;
+import com.whamu2.wanandroid.mvp.ui.dialog.MoreBottomDialog;
 import com.whamu2.wanandroid.widget.ScrollWebView;
 
-import java.util.Objects;
+import static com.whamu2.wanandroid.common.Container.Event.COLLECT_STATE_CHANGE;
 
 /**
  * WebView显示文章详情
@@ -31,16 +31,22 @@ import java.util.Objects;
  * @author whamu2
  * @date 2018/7/4
  */
-public class PageDetailsActivity extends BaseDataBindingActivity<ActivityWebviewPageBinding> implements ScrollWebView.OnWebViewPageLoadStateListener {
+public class PageDetailsActivity extends BaseDataBindingActivity<ActivityWebviewPageBinding>
+        implements ScrollWebView.OnWebViewPageLoadStateListener, ScrollWebView.OnScrollStateListener {
     private static final String TAG = PageDetailsActivity.class.getSimpleName();
     public static final String KEY_DATA = "data";
+    private static final String KEY_ORIGIN = "origin";
 
-    public static void start(Context context, Articles bean) {
+    private Articles mArticles;
+    private int origin;
+
+    public static void start(Context context,
+                             Articles bean, int origin) {
         Intent starter = new Intent(context, PageDetailsActivity.class);
         starter.putExtra(KEY_DATA, bean);
+        starter.putExtra(KEY_ORIGIN, origin);
         context.startActivity(starter);
     }
-
 
     @Override
     protected int initView() {
@@ -49,56 +55,31 @@ public class PageDetailsActivity extends BaseDataBindingActivity<ActivityWebview
 
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
-        setupToolbar(mViewBinding.toolbar, getArticle() != null ? getArticle().getTitle() : "");
+        if (getIntent() != null) {
+            mArticles = getIntent().getParcelableExtra(KEY_DATA);
+            origin = getIntent().getIntExtra(KEY_ORIGIN, -1);
+        }
+        String title = mArticles != null ? mArticles.getTitle() : "文章详情页";
+        Toolbar toolbar = mViewBinding.toolbar;
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setTitle(title);
+        }
+        toolbar.setNavigationOnClickListener(v -> {
+            onBackPressed();
+            KeyboardUtils.hideSoftInput(this);
+        });
 
         mViewBinding.webView.setTopProgressBarVisibility(true);
         mViewBinding.webView.setTopProgressBarColor(ContextCompat.getColor(this, R.color.colorAccent));
         mViewBinding.webView.setOnWebViewPageLoadStateListener(this);
+        mViewBinding.webView.setOnScrollStateListener(this);
         mViewBinding.webView.addJavascriptInterface(new JavascriptObject(this), "");
-        mViewBinding.setListener(this::onClick);
 
-        if (getArticle() != null) {
-            mViewBinding.webView.loadUrl(getArticle().getLink());
-            goCollect(getArticle().isCollect());
-        }
-
-
-    }
-
-    private Articles getArticle() {
-        if (getIntent() != null) {
-            return getIntent().getParcelableExtra(KEY_DATA);
-        }
-        return null;
-    }
-
-    void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.fab:
-                if (getArticle() == null) {
-                    return;
-                }
-                boolean collect = getArticle().isCollect();
-                if (collect) {
-                    goCollect(false);
-                } else {
-                    goCollect(true);
-                    Snackbar.make(view, "收藏成功", Snackbar.LENGTH_LONG)
-                            .setAction("Action", null)
-                            .show();
-                }
-                break;
-        }
-    }
-
-
-    private void goCollect(boolean val) {
-        if (val) {
-            mViewBinding.fab.setImageTintList(
-                    ContextCompat.getColorStateList(App.getApplication(), R.color.colorAccent));
-        } else {
-            mViewBinding.fab.setImageTintList(
-                    ContextCompat.getColorStateList(App.getApplication(), R.color.gray));
+        if (mArticles != null) {
+            mViewBinding.webView.loadUrl(mArticles.getLink());
         }
     }
 
@@ -111,20 +92,21 @@ public class PageDetailsActivity extends BaseDataBindingActivity<ActivityWebview
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int itemId = item.getItemId();
-        if (itemId == R.id.action_browser) {
-            Uri uri = Uri.parse(Objects.requireNonNull(getArticle()).getLink());
-            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-            startActivity(intent);
+        if (itemId == R.id.action_more) {
+            MoreBottomDialog.newInstance(mArticles, origin)
+                    .show(getSupportFragmentManager(), "MoreBottomDialog");
             return true;
-        } else if (itemId == R.id.action_link) {
-            if (getArticle() != null && !TextUtils.isEmpty(getArticle().getProjectLink())) {
-                Uri uri = Uri.parse(getArticle().getProjectLink());
-                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-                startActivity(intent);
-                return true;
-            }
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onEventSubscribe(EventObj obj) {
+        super.onEventSubscribe(obj);
+        if (obj.getKey() == COLLECT_STATE_CHANGE) {
+            boolean isCollect = (boolean) obj.getValue();
+            mArticles.setCollect(isCollect);
+        }
     }
 
     @Override
@@ -142,6 +124,10 @@ public class PageDetailsActivity extends BaseDataBindingActivity<ActivityWebview
 
     }
 
+    @Override
+    public void onScrollState(ScrollWebView.State state, int l, int t, int oldl, int oldt) {
+
+    }
 
     private static class JavascriptObject {
         private Context mContext;

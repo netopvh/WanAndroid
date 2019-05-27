@@ -16,6 +16,7 @@ import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener;
 import com.whamu2.wanandroid.R;
 import com.whamu2.wanandroid.base.BaseLifecycleDataBindingActivity;
 import com.whamu2.wanandroid.common.Container;
+import com.whamu2.wanandroid.common.event.EventObj;
 import com.whamu2.wanandroid.databinding.ActivityCollectBinding;
 import com.whamu2.wanandroid.di.component.DaggerFavoritesComponent;
 import com.whamu2.wanandroid.di.model.FavoritesModule;
@@ -29,6 +30,9 @@ import com.whamu2.wanandroid.utils.GeneralUtil;
 import java.util.List;
 
 import javax.inject.Inject;
+
+import static com.whamu2.wanandroid.common.Container.Const.ORIGIN_COLLECT_LIST;
+import static com.whamu2.wanandroid.common.Container.Event.COLLECT_STATE_CHANGE;
 
 /**
  * @author suming
@@ -115,10 +119,22 @@ public class FavoritesActivity extends BaseLifecycleDataBindingActivity<Activity
     @Override
     public void showMessage(@NonNull String message) {
         ToastUtils.showLong(message);
+
     }
 
     private void onItemClick(BaseQuickAdapter adapter, View view, int position) {
         Articles item = mAdapter.getItem(position);
-        PageDetailsActivity.start(this, item);
+        PageDetailsActivity.start(this, item, ORIGIN_COLLECT_LIST);
+    }
+
+    @Override
+    protected void onEventSubscribe(EventObj obj) {
+        super.onEventSubscribe(obj);
+        if (obj.getKey() == COLLECT_STATE_CHANGE) {
+            if (mPresenter != null) {
+                mPageIndex = 0;
+                mPresenter.getData(mPageIndex);
+            }
+        }
     }
 }

@@ -19,6 +19,7 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener;
 import com.whamu2.wanandroid.R;
 import com.whamu2.wanandroid.base.BaseLifecycleDataBindingFragment;
+import com.whamu2.wanandroid.common.event.EventObj;
 import com.whamu2.wanandroid.databinding.FragmentTopArticleBinding;
 import com.whamu2.wanandroid.di.component.DaggerTopArticleComponent;
 import com.whamu2.wanandroid.di.model.TopArticleModule;
@@ -37,6 +38,9 @@ import com.youth.banner.Transformer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+
+import static com.whamu2.wanandroid.common.Container.Const.ORIGIN_COLLECT_PAGE;
+import static com.whamu2.wanandroid.common.Container.Event.COLLECT_STATE_CHANGE;
 
 /**
  * 顶置文章
@@ -78,8 +82,6 @@ public class TopArticleFragment extends BaseLifecycleDataBindingFragment<Fragmen
 
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
-        mViewBinding.setListener(this::onClick);
-
         mAdapter = SubclassAdapter.create();
         mViewBinding.refresh.setOnRefreshLoadMoreListener(this);
         mViewBinding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -182,23 +184,20 @@ public class TopArticleFragment extends BaseLifecycleDataBindingFragment<Fragmen
 
     }
 
-    @Override
-    public void launchActivity(@NonNull Intent intent) {
-    }
-
-    @Override
-    public void killMyself() {
-
-    }
-
     private void onItemClick(BaseQuickAdapter adapter, View view, int position) {
         Articles item = mAdapter.getItem(position);
-
-        PageDetailsActivity.start(getContext(), item);
+        PageDetailsActivity.start(getContext(), item, ORIGIN_COLLECT_PAGE);
 
     }
 
-    public void onClick(View v) {
+    @Override
+    protected void onEventSubscribe(EventObj obj) {
+        super.onEventSubscribe(obj);
+        if (obj.getKey() == COLLECT_STATE_CHANGE) {
+            if (mPresenter != null) {
+                mPageIndex = 0;
+                mPresenter.getData(mPageIndex);
+            }
+        }
     }
-
 }

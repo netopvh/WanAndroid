@@ -43,4 +43,5 @@
     <string name="nav_share">分享</string>
     <string name="nav_settings">设置</string>
     <string name="nav_logout">退出</string>
+    <string name="action_cancel">取消</string>
 </resources>

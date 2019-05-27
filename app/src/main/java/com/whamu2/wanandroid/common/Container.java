@@ -14,6 +14,14 @@ public class Container {
          * 默认页
          */
         public static final int DEFAULT_PAGE = 1;
+        /**
+         * 详情来源-收藏列表
+         */
+        public static final int ORIGIN_COLLECT_LIST = 800;
+        /**
+         * 详情来源-文章列表
+         */
+        public static final int ORIGIN_COLLECT_PAGE = 861;
     }
 
     public static class Key {
@@ -34,6 +42,8 @@ public class Container {
     public static class Event {
 
         public static final int LOGIN = 82;
+
+        public static final int COLLECT_STATE_CHANGE = 214;
     }
 
     public static String getBuglyID() {

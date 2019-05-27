@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="listener"
+            type="android.view.View.OnClickListener" />
+    </data>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:scrollbars="none">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="15dp">
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/action_favorites"
+                    android:layout_width="100dp"
+                    android:layout_height="60dp"
+                    android:background="?android:selectableItemBackground"
+                    android:drawableTop="@drawable/ic_favorite_black_24dp"
+                    android:drawablePadding="10dp"
+                    android:gravity="center"
+                    android:onClick="@{listener}"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                    tools:text="收藏" />
+
+                <Space
+                    android:layout_width="8dp"
+                    android:layout_height="match_parent" />
+
+                <TextView
+                    android:id="@+id/action_browser"
+                    android:layout_width="100dp"
+                    android:layout_height="60dp"
+                    android:background="?android:selectableItemBackground"
+                    android:drawableTop="@drawable/ic_open_in_browser_black_24dp"
+                    android:drawablePadding="10dp"
+                    android:gravity="center"
+                    android:onClick="@{listener}"
+                    android:text="@string/action_browser"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+
+                <Space
+                    android:layout_width="8dp"
+                    android:layout_height="match_parent" />
+
+                <TextView
+                    android:id="@+id/action_link"
+                    android:layout_width="100dp"
+                    android:layout_height="60dp"
+                    android:background="?android:selectableItemBackground"
+                    android:drawableTop="@drawable/ic_link_black_24dp"
+                    android:drawablePadding="10dp"
+                    android:gravity="center"
+                    android:onClick="@{listener}"
+                    android:text="@string/action_project_link"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+
+            </LinearLayout>
+
+        </HorizontalScrollView>
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="20dp" />
+
+        <TextView
+            android:id="@+id/action_cancel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?android:selectableItemBackground"
+            android:gravity="center"
+            android:onClick="@{listener}"
+            android:padding="18dp"
+            android:text="@string/action_cancel"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="@color/colorAccent"
+            android:textSize="16sp" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="40dp" />
+
+    </LinearLayout>
+</layout>

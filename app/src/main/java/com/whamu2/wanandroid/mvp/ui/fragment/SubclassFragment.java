@@ -20,6 +20,7 @@ import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener;
 import com.whamu2.wanandroid.R;
 import com.whamu2.wanandroid.base.BaseLifecycleDataBindingFragment;
 import com.whamu2.wanandroid.common.Container;
+import com.whamu2.wanandroid.common.event.EventObj;
 import com.whamu2.wanandroid.databinding.FragmentSubclassBinding;
 import com.whamu2.wanandroid.di.component.DaggerSubclassComponent;
 import com.whamu2.wanandroid.di.model.SubclassModule;
@@ -35,6 +36,9 @@ import java.util.List;
 import java.util.Objects;
 
 import javax.inject.Inject;
+
+import static com.whamu2.wanandroid.common.Container.Const.ORIGIN_COLLECT_PAGE;
+import static com.whamu2.wanandroid.common.Container.Event.COLLECT_STATE_CHANGE;
 
 /**
  * @author whamu2
@@ -137,20 +141,19 @@ public class SubclassFragment extends BaseLifecycleDataBindingFragment<FragmentS
 
     }
 
-    @Override
-    public void launchActivity(@NonNull Intent intent) {
-        ActivityUtils.startActivity(intent);
-
-    }
-
-    @Override
-    public void killMyself() {
-
-    }
-
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
         Articles item = mAdapter.getItem(position);
+        PageDetailsActivity.start(getContext(), item, ORIGIN_COLLECT_PAGE);
+    }
 
-        PageDetailsActivity.start(getContext(), item);
+    @Override
+    protected void onEventSubscribe(EventObj obj) {
+        super.onEventSubscribe(obj);
+        if (obj.getKey() == COLLECT_STATE_CHANGE) {
+            if (mPresenter != null) {
+                mPageIndex = 0;
+                mPresenter.getListById(id, mPageIndex);
+            }
+        }
     }
 }

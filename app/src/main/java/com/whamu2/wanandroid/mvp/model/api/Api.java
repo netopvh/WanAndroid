@@ -70,5 +70,21 @@ public interface Api {
          * 收藏列表
          */
         public static final String COLLECT_LIST = "lg/collect/list/{page}/json";
+        /**
+         * 收藏站内文章
+         */
+        public static final String COLLECT_ARTICLE_INTERNAL = "lg/collect/{id}/json";
+        /**
+         * 收藏站外文章
+         */
+        public static final String COLLECT_ARTICLE_EXTERNAL = "lg/collect/add/json";
+        /**
+         * 取消收藏文章广场
+         */
+        public static final String CANCEL_COLLECT_ARTICLE_SQUARE = "lg/uncollect_originId/{id}/json";
+        /**
+         * 取消收藏文章我的收藏
+         */
+        public static final String CANCEL_COLLECT_ARTICLE_MY = "lg/uncollect/{id}/json";
     }
 }
