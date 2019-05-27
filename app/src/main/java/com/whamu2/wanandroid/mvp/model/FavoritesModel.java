@@ -28,7 +28,7 @@ public class FavoritesModel extends BaseModel implements FavoritesCot.Model {
 
     @Override
     public Observable<BaseResp<Pagination>> queryFavoritesList(int page) {
-        return mRepositoryManager.obtainCacheService(ApiService.class)
+        return mRepositoryManager.obtainRetrofitService(ApiService.class)
                 .getCollectList(page)
                 .compose(Transformer.cutoverSchedulers());
     }
