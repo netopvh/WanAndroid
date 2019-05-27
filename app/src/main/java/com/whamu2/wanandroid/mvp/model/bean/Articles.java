@@ -6,6 +6,8 @@ import android.os.Parcelable;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 
 import java.util.List;
 
@@ -351,6 +353,10 @@ public class Articles implements Parcelable {
     public static void loadImage(ImageView imageView, String envelopePic) {
         Glide.with(imageView.getContext())
                 .load(envelopePic)
+                .apply(RequestOptions.skipMemoryCacheOf(true))
+                .apply(RequestOptions.noAnimation())
+                .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.ALL))
+                .thumbnail(0.1f)
                 .into(imageView);
     }
 }

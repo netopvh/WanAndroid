@@ -9,7 +9,7 @@ import com.whamu2.wanandroid.R;
 import com.whamu2.wanandroid.base.BaseDataBindingActivity;
 import com.whamu2.wanandroid.databinding.ActivitySystemBinding;
 import com.whamu2.wanandroid.mvp.model.bean.Cycle;
-import com.whamu2.wanandroid.mvp.ui.adapter.TabAdapter;
+import com.whamu2.wanandroid.mvp.ui.adapter.TabTitleAdapter;
 import com.whamu2.wanandroid.mvp.ui.fragment.SubclassFragment;
 
 /**
@@ -37,7 +37,7 @@ public class SystemActivity extends BaseDataBindingActivity<ActivitySystemBindin
         Cycle bean = getIntent().getParcelableExtra(KEY_DATA);
         setupToolbar(mViewBinding.toolbar, bean.getName());
 
-        TabAdapter adapter = new TabAdapter(getSupportFragmentManager());
+        TabTitleAdapter adapter = new TabTitleAdapter(getSupportFragmentManager());
 
         for (Cycle treeBean : bean.getChildren()) {
             adapter.addTab(SubclassFragment.newInstance(treeBean.getId()), treeBean.getName());

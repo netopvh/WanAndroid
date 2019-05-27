@@ -4,9 +4,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -18,6 +15,7 @@ import com.ToxicBakery.viewpager.transforms.DepthPageTransformer;
 import com.whamu2.wanandroid.R;
 import com.whamu2.wanandroid.base.BaseDataBindingActivity;
 import com.whamu2.wanandroid.databinding.ActivityMainBinding;
+import com.whamu2.wanandroid.mvp.ui.adapter.TabAdapter;
 import com.whamu2.wanandroid.mvp.ui.fragment.MineFragment;
 import com.whamu2.wanandroid.mvp.ui.fragment.ProjectFragment;
 import com.whamu2.wanandroid.mvp.ui.fragment.SystemFragment;
@@ -26,22 +24,17 @@ import com.whamu2.wanandroid.mvp.ui.fragment.WechatFragment;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * @author Suming
  * @date 2019/3/7
  * @address https://github.com/whamu2
  */
-public class MainActivity extends BaseDataBindingActivity<ActivityMainBinding>  {
+public class MainActivity extends BaseDataBindingActivity<ActivityMainBinding> {
     private static final String TAG = MainActivity.class.getSimpleName();
 
     private Toolbar mToolbar;
     private DrawerLayout mDrawerLayout;
-    private NavigationView mNavigationView;
     private ViewPager mViewPager;
-    private BottomNavigationView mBottomNavigationView;
 
     @Override
     public int initView() {
@@ -52,18 +45,23 @@ public class MainActivity extends BaseDataBindingActivity<ActivityMainBinding>  
     public void initData(@Nullable Bundle savedInstanceState) {
         mToolbar = findViewById(R.id.toolbar);
         mViewPager = findViewById(R.id.viewpager);
-        mBottomNavigationView = findViewById(R.id.navigation);
+        BottomNavigationView mBottomNavigationView = findViewById(R.id.navigation);
         mDrawerLayout = findViewById(R.id.drawer_layout);
-        mNavigationView = findViewById(R.id.nav_view);
+        NavigationView mNavigationView = findViewById(R.id.nav_view);
 
+        /**
+         * 侧栏导航设置
+         */
         setSupportActionBar(mToolbar);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, mDrawerLayout, mToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         mDrawerLayout.addDrawerListener(toggle);
         toggle.syncState();
         mNavigationView.setNavigationItemSelectedListener(this::onNavigationItemSelected);
 
-        Adapter adapter = new Adapter(getSupportFragmentManager());
+        /**
+         * 底部导航设置
+         */
+        TabAdapter adapter = new TabAdapter(getSupportFragmentManager());
         adapter.addFragment(TopArticleFragment.newInstance());
         adapter.addFragment(SystemFragment.newInstance());
         adapter.addFragment(ProjectFragment.newInstance());
@@ -72,7 +70,6 @@ public class MainActivity extends BaseDataBindingActivity<ActivityMainBinding>  
         mViewPager.setOffscreenPageLimit(3);
         mViewPager.setPageTransformer(true, new DepthPageTransformer());
         mViewPager.setAdapter(adapter);
-
         mBottomNavigationView.setOnNavigationItemSelectedListener(item -> {
             switch (item.getItemId()) {
                 case R.id.navigation_home:
@@ -126,27 +123,5 @@ public class MainActivity extends BaseDataBindingActivity<ActivityMainBinding>  
 
         mDrawerLayout.closeDrawer(GravityCompat.START);
         return true;
-    }
-
-    class Adapter extends FragmentPagerAdapter {
-        private List<Fragment> fragments = new ArrayList<>();
-
-        Adapter(FragmentManager fm) {
-            super(fm);
-        }
-
-        void addFragment(Fragment fragment) {
-            fragments.add(fragment);
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            return fragments.get(position);
-        }
-
-        @Override
-        public int getCount() {
-            return fragments.size();
-        }
     }
 }

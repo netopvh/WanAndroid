@@ -18,7 +18,7 @@ import com.whamu2.wanandroid.di.model.ProjectModule;
 import com.whamu2.wanandroid.mvp.contract.ProjectContract;
 import com.whamu2.wanandroid.mvp.model.bean.Cycle;
 import com.whamu2.wanandroid.mvp.presenter.ProjectPresenter;
-import com.whamu2.wanandroid.mvp.ui.adapter.TabAdapter;
+import com.whamu2.wanandroid.mvp.ui.adapter.TabTitleAdapter;
 
 import java.util.List;
 
@@ -64,7 +64,7 @@ public class ProjectFragment extends BaseLifecycleDataBindingFragment<FragmentPr
 
     @Override
     public void onProjectDone(List<Cycle> treeBeans) {
-        TabAdapter adapter = new TabAdapter(getChildFragmentManager());
+        TabTitleAdapter adapter = new TabTitleAdapter(getChildFragmentManager());
         for (Cycle bean : treeBeans) {
             adapter.addTab(ProjectChildFragment.newInstance(bean.getId()), bean.getName());
         }

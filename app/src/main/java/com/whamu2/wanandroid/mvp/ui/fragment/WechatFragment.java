@@ -18,7 +18,7 @@ import com.whamu2.wanandroid.di.model.WechatModule;
 import com.whamu2.wanandroid.mvp.contract.WechatCot;
 import com.whamu2.wanandroid.mvp.model.bean.WechatNumber;
 import com.whamu2.wanandroid.mvp.presenter.WechatPresenter;
-import com.whamu2.wanandroid.mvp.ui.adapter.TabAdapter;
+import com.whamu2.wanandroid.mvp.ui.adapter.TabTitleAdapter;
 
 import java.util.List;
 
@@ -63,7 +63,7 @@ public class WechatFragment extends BaseLifecycleDataBindingFragment<FragmentWec
 
     @Override
     public void onNumberDone(List<WechatNumber> numbers) {
-        TabAdapter adapter = new TabAdapter(getChildFragmentManager());
+        TabTitleAdapter adapter = new TabTitleAdapter(getChildFragmentManager());
         for (WechatNumber number : numbers) {
             adapter.addTab(WechatChildFragment.newInstance(number.getId()), number.getName());
         }
