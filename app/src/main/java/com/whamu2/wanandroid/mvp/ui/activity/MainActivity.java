@@ -18,8 +18,10 @@ import com.ToxicBakery.viewpager.transforms.DepthPageTransformer;
 import com.android.lib.aspect.CheckLogin;
 import com.blankj.utilcode.util.ToastUtils;
 import com.jess.arms.utils.ArmsUtils;
+import com.whamu2.android.PreferenceHelper;
 import com.whamu2.wanandroid.R;
 import com.whamu2.wanandroid.base.BaseDataBindingActivity;
+import com.whamu2.wanandroid.common.Container;
 import com.whamu2.wanandroid.common.event.EventObj;
 import com.whamu2.wanandroid.databinding.ActivityMainBinding;
 import com.whamu2.wanandroid.mvp.model.bean.BaseResp;
@@ -183,6 +185,8 @@ public class MainActivity extends BaseDataBindingActivity<ActivityMainBinding> {
             onCheckLogin(R.id.nav_favorites);
         } else if (id == R.id.nav_theme_mode) {
             // 夜晚模式
+            PreferenceHelper.getInstance(this).putBoolean(Container.Key.KEY_NIGHT_MODE, true);
+            reload();
         } else if (id == R.id.nav_settings) {
             // 设置
         } else if (id == R.id.nav_share) {
