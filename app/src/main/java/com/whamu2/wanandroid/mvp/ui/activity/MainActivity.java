@@ -16,10 +16,13 @@ import android.widget.TextView;
 
 import com.ToxicBakery.viewpager.transforms.DepthPageTransformer;
 import com.android.lib.aspect.CheckLogin;
+import com.blankj.utilcode.util.ToastUtils;
+import com.jess.arms.utils.ArmsUtils;
 import com.whamu2.wanandroid.R;
 import com.whamu2.wanandroid.base.BaseDataBindingActivity;
 import com.whamu2.wanandroid.common.event.EventObj;
 import com.whamu2.wanandroid.databinding.ActivityMainBinding;
+import com.whamu2.wanandroid.mvp.model.bean.BaseResp;
 import com.whamu2.wanandroid.mvp.model.bean.User;
 import com.whamu2.wanandroid.mvp.ui.adapter.TabAdapter;
 import com.whamu2.wanandroid.mvp.ui.fragment.MineFragment;
@@ -27,9 +30,15 @@ import com.whamu2.wanandroid.mvp.ui.fragment.ProjectFragment;
 import com.whamu2.wanandroid.mvp.ui.fragment.SystemFragment;
 import com.whamu2.wanandroid.mvp.ui.fragment.TopArticleFragment;
 import com.whamu2.wanandroid.mvp.ui.fragment.WechatFragment;
+import com.whamu2.wanandroid.utils.SingletonLoadHelper;
+import com.whamu2.wanandroid.utils.Transformer;
 import com.whamu2.wanandroid.utils.database.DatabaseManager;
+import com.whamu2.wanandroid.utils.observer.Callback;
+import com.whamu2.wanandroid.utils.observer.CommonSubscriber;
 
 import org.jetbrains.annotations.NotNull;
+
+import me.jessyan.rxerrorhandler.core.RxErrorHandler;
 
 import static com.whamu2.wanandroid.common.Container.Event.LOGIN;
 
@@ -49,6 +58,8 @@ public class MainActivity extends BaseDataBindingActivity<ActivityMainBinding> {
     private BottomNavigationView mBottomNavigationView;
     private TextView nameTextView;
 
+    private RxErrorHandler mErrorHandler;
+
     @Override
     public int initView() {
         return R.layout.activity_main;
@@ -61,6 +72,8 @@ public class MainActivity extends BaseDataBindingActivity<ActivityMainBinding> {
         mBottomNavigationView = findViewById(R.id.navigation);
         mDrawerLayout = findViewById(R.id.drawer_layout);
         mNavigationView = findViewById(R.id.nav_view);
+
+        mErrorHandler = ArmsUtils.obtainAppComponentFromContext(this).rxErrorHandler();
 
         /**
          * 侧栏导航设置
@@ -129,7 +142,8 @@ public class MainActivity extends BaseDataBindingActivity<ActivityMainBinding> {
     @CheckLogin
     public void onCheckLogin(int id) {
         setupOwner();
-        if (id == R.id.headerImageView) {
+        if (id == R.id.nav_favorites) {
+            ToastUtils.showShort("收藏");
         }
     }
 
@@ -137,6 +151,8 @@ public class MainActivity extends BaseDataBindingActivity<ActivityMainBinding> {
         User user = DatabaseManager.getInstance().getUser();
         if (user != null) {
             nameTextView.setText(user.getUsername());
+        } else {
+            nameTextView.setText(R.string.app_name);
         }
     }
 
@@ -163,14 +179,49 @@ public class MainActivity extends BaseDataBindingActivity<ActivityMainBinding> {
         int id = item.getItemId();
 
         if (id == R.id.nav_favorites) {
-            // Handle the camera action
+            // 收藏
             onCheckLogin(R.id.nav_favorites);
         } else if (id == R.id.nav_theme_mode) {
-
+            // 夜晚模式
+        } else if (id == R.id.nav_settings) {
+            // 设置
         } else if (id == R.id.nav_share) {
+            // 分享
+        } else if (id == R.id.nav_logout) {
+            // 登出
+            User user = DatabaseManager.getInstance().getUser();
+            if (user != null) {
+                SingletonLoadHelper.register(this)
+                        .logout()
+                        .compose(Transformer.cutoverSchedulers())
+                        .subscribe(new CommonSubscriber<>(mErrorHandler, new Callback<BaseResp<Object>>() {
+                            @Override
+                            public void onCompleted() {
 
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+
+                            }
+
+                            @Override
+                            public void onNext(BaseResp<Object> resp) {
+                                if (resp.isSuccess()) {
+                                    DatabaseManager.getInstance().clear();
+                                    ToastUtils.showLong(getString(R.string.str_logout_done));
+                                    setupOwner();
+                                } else {
+                                    ToastUtils.showLong(resp.getErrorMsg());
+                                }
+
+                            }
+                        }));
+            } else {
+                ToastUtils.showShort("你还未登录");
+            }
         } else {
-
+            ToastUtils.showShort("敬请期待");
         }
 
         mDrawerLayout.closeDrawer(GravityCompat.START);
